@@ -29,49 +29,49 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  */
-package jakhar.aseem.diva;
+package jakhar.aseem.diva
 
-import android.content.Context;
-import android.database.sqlite.SQLiteDatabase;
-import android.os.Environment;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.widget.EditText;
-import android.widget.Toast;
+import android.os.Bundle
+import android.view.View
+import android.widget.SimpleCursorAdapter
+import android.widget.Toast
+import jakhar.aseem.diva.databinding.ActivityAccessControl3NotesBinding
 
-import java.io.File;
+class AccessControl3NotesActivity : BindingActivity<ActivityAccessControl3NotesBinding>() {
 
-public class InsecureDataStorage2Activity extends AppCompatActivity {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(ActivityAccessControl3NotesBinding::inflate)
 
-    private SQLiteDatabase mDB;
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        try {
-            mDB = openOrCreateDatabase("ids2", MODE_PRIVATE, null);
-            mDB.execSQL("CREATE TABLE IF NOT EXISTS myuser(user VARCHAR, password VARCHAR);");
+        binding.aci3naccessbutton.setOnClickListener {
+            accessNotes()
         }
-        catch(Exception e) {
-            Log.d("Diva", "Error occurred while creating database: " + e.getMessage());
-        }
-
-        setContentView(R.layout.activity_insecure_data_storage2);
     }
 
-    public void saveCredentials(View view) {
-        EditText usr = (EditText) findViewById(R.id.ids2Usr);
-        EditText pwd = (EditText) findViewById(R.id.ids2Pwd);
-        try {
-            mDB.execSQL("INSERT INTO myuser VALUES ('"+ usr.getText().toString() +"', '"+ pwd.getText().toString() +"');");
-            mDB.close();
-        }
-        catch(Exception e) {
-            Log.d("Diva", "Error occurred while inserting into database: " + e.getMessage());
-        }
-        Toast.makeText(this, "3rd party credentials saved successfully!", Toast.LENGTH_SHORT).show();
+    fun accessNotes() {
+        val spref = getSharedPreferences()
+        val pin = spref.getString(getString(R.string.pkey), "").orEmpty()
+        val userpin = binding.aci3notesPinText.text.toString()
 
-
+        // XXX Easter Egg?
+        if (userpin == pin) {
+            // Display the private notes
+            val cr = contentResolver.query(
+                NotesProvider.CONTENT_URI,
+                arrayOf("_id", "title", "note"),
+                null,
+                null,
+                null
+            )
+            val columns = arrayOf(NotesProvider.C_TITLE, NotesProvider.C_NOTE)
+            val fields = intArrayOf(R.id.title_entry, R.id.note_entry)
+            val adapter = SimpleCursorAdapter(this, R.layout.notes_entry, cr, columns, fields, 0)
+            binding.aci3nlistView.adapter = adapter
+            binding.aci3notesPinText.visibility = View.INVISIBLE
+            binding.aci3naccessbutton.visibility = View.INVISIBLE
+            //cr.close();
+        } else {
+            Toast.makeText(this, "Please Enter a valid pin!", Toast.LENGTH_SHORT).show()
+        }
     }
 }

@@ -52,7 +52,6 @@
         android:layout_below="@+id/ids1Pwd"
         android:layout_alignParentLeft="false"
         android:layout_alignParentStart="false"
-        android:layout_centerHorizontal="true"
-        android:onClick="saveCredentials"/>
+        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>

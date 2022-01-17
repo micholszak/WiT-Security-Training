@@ -35,7 +35,6 @@
         android:id="@+id/aci2button"
         android:layout_centerHorizontal="true"
         android:layout_below="@+id/aci2pinText"
-        android:visibility="invisible"
-        android:onClick="viewCreds"/>
+        android:visibility="invisible" />
 
 </RelativeLayout>

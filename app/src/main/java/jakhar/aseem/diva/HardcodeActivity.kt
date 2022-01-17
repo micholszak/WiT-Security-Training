@@ -29,21 +29,29 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  */
-package jakhar.aseem.diva;
+package jakhar.aseem.diva
 
-/**
- * Created by diva on 17/11/15.
- */
-public class DivaJni {
+import android.os.Bundle
+import android.widget.Toast
+import jakhar.aseem.diva.databinding.ActivityHardcodeBinding
 
-    private static final String soName =  "divajni";
+class HardcodeActivity : BindingActivity<ActivityHardcodeBinding>() {
 
-    static
-    {
-        System.loadLibrary(soName);
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(ActivityHardcodeBinding::inflate)
+
+        binding.button.setOnClickListener {
+            access()
+        }
     }
-    // Jni function
-    // Returns 1 if the key specified by user is valid, 0 otherwise
-    public native int access(String key);
-    public native int initiateLaunchSequence(String code);
+
+    private fun access() {
+        if (binding.hcKey.text.toString() == "vendorsecretkey") {
+            Toast.makeText(this, "Access granted! See you on the other side :)", Toast.LENGTH_SHORT)
+                .show()
+        } else {
+            Toast.makeText(this, "Access denied! See you in hell :D", Toast.LENGTH_SHORT).show()
+        }
+    }
 }

@@ -25,7 +25,6 @@
         android:layout_height="wrap_content"
         android:text="@string/aci1_view"
         android:id="@+id/aci1button"
-        android:onClick="viewAPICredentials"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true" />
 

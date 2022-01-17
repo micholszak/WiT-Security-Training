@@ -33,22 +33,19 @@
         android:layout_height="wrap_content"
         android:text="@string/aci2_regnow"
         android:id="@+id/aci2rbregnow"
-        android:layout_centerHorizontal="true"
          />
 
     <RadioButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/aci2_alreadyreg"
-        android:id="@+id/aci2rbalreadyreg"
-        android:layout_centerHorizontal="true" />
+        android:id="@+id/aci2rbalreadyreg" />
     </RadioGroup>
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/aci2_view"
         android:id="@+id/aci1button"
-        android:onClick="viewAPICredentials"
         android:layout_below="@id/aci2rgroup"
         android:layout_centerHorizontal="true" />
 

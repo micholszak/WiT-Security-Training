@@ -36,6 +36,5 @@
         android:layout_below="@+id/hcKey"
         android:layout_alignParentLeft="false"
         android:layout_alignParentStart="false"
-        android:layout_centerHorizontal="true"
-        android:onClick="access"/>
+        android:layout_centerHorizontal="true" />
 </RelativeLayout>

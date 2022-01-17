@@ -25,7 +25,6 @@
         android:layout_height="wrap_content"
         android:text="@string/aci3_accessnotes"
         android:id="@+id/aci3naccessbutton"
-        android:onClick="accessNotes"
         android:layout_below="@+id/aci3notesPinText"
         android:layout_centerHorizontal="true" />
 

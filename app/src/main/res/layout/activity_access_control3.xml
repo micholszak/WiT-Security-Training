@@ -37,7 +37,6 @@
         android:layout_height="wrap_content"
         android:text="@string/aci3_createpin"
         android:id="@+id/aci3createpinbutton"
-        android:onClick="addPin"
         android:layout_below="@+id/aci3Pin"
         android:layout_centerHorizontal="true" />
 
@@ -46,7 +45,6 @@
         android:layout_height="wrap_content"
         android:text="@string/aci3_gotonotes"
         android:id="@+id/aci3viewbutton"
-        android:onClick="goToNotes"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:visibility="invisible" />

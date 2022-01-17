@@ -29,34 +29,43 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  */
-package jakhar.aseem.diva;
+package jakhar.aseem.diva
 
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.view.View;
-import android.widget.EditText;
-import android.widget.Toast;
+import android.os.Bundle
+import android.view.View
+import android.widget.Toast
+import jakhar.aseem.diva.databinding.ActivityApicreds2Binding
 
-public class Hardcode2Activity extends AppCompatActivity {
+class APICreds2Activity : BindingActivity<ActivityApicreds2Binding>() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(ActivityApicreds2Binding::inflate)
+        val intent = intent
+        val bcheck = intent.getBooleanExtra(getString(R.string.chk_pin), true)
+        if (!bcheck) {
+            // Connect to vendor cloud and send User PIN
+            // Get API credentials and other confidential details of the user
+            val apidetails =
+                "TVEETER API Key: secrettveeterapikey\nAPI User name: diva2\nAPI Password: p@ssword2"
+            // Display the details on the app
+            binding.apic2TextView.text = apidetails
+        } else {
+            binding.apic2TextView.text =
+                "Register yourself at http://payatu.com to get your PIN and then login with that PIN!"
+            binding.aci2pinText.visibility = View.VISIBLE
+            binding.aci2button.visibility = View.VISIBLE
+        }
 
-    private DivaJni djni;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_hardcode2);
-
-        djni = new DivaJni();
+        binding.aci2button.setOnClickListener {
+            viewCreds()
+        }
     }
 
-    public void access(View view) {
-        EditText hckey = (EditText) findViewById(R.id.hc2Key);
-
-        if (djni.access(hckey.getText().toString()) != 0) {
-            Toast.makeText(this, "Access granted! See you on the other side :)", Toast.LENGTH_SHORT).show();
-        }
-        else {
-            Toast.makeText(this, "Access denied! See you in hell :D", Toast.LENGTH_SHORT).show();
-        }
+    private fun viewCreds() {
+        //Save user PIN
+        // Connect to vendor cloud and send User PIN
+        // Get API credentials and other confidential details of the user
+        // If PIN is wrong ask user to enter correct pin
+        Toast.makeText(this, "Invalid PIN. Please try again", Toast.LENGTH_SHORT).show()
     }
 }

@@ -21,8 +21,6 @@
     <string name="d9">9. Access Control Issues - Part 1</string>
     <string name="d10">10. Access Control Issues - Part 2</string>
     <string name="d11">11. Access Control Issues - Part 3</string>
-    <string name="d12">12. Hardcoding Issues - Part 2</string>
-    <string name="d13">13. Input Validation Issues - Part 3</string>
     <string name="log_intro"><b>Objective</b>: Find out what is being logged where/how and the vulnerable code.\n
                              <b>Hint</b>: Insecure logging occurs when developers intentionally
                              or unintentionally log sensitive information such as

@@ -29,62 +29,20 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  */
+package jakhar.aseem.diva
 
-#include <jni.h>
-#include <string.h>
-#include "divajni.h"
+import android.os.Bundle
+import jakhar.aseem.diva.databinding.ActivityApicredsBinding
 
-#define VENDORKEY   "olsdfgad;lh"
-#define CODE        ".dotdot"
-#define CODESIZEMAX 20
-/*
- * Verify the key for access
- *
- * @param  jkey   The key input by user
- *
- * @return 1 if jkey is valid, 0 otherwise. In other words 
- @         if the user key matches our key return 1, else return 0.
- */
-JNIEXPORT jint JNICALL Java_jakhar_aseem_diva_DivaJni_access(JNIEnv * env, jobject jobj, jstring jkey) {
+class APICredsActivity : BindingActivity<ActivityApicredsBinding>() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(ActivityApicredsBinding::inflate)
+        // Connect to vendor cloud
+        // Get API credentials and other confidential details of the user
+        val apidetails = "API Key: 123secretapikey123\nAPI User name: diva\nAPI Password: p@ssword"
 
-    const char * key = (*env)->GetStringUTFChars(env, jkey, 0);
-    
-    return ((strncmp(VENDORKEY, key, strlen(VENDORKEY)))?0:1);
-}
-
-/*
- * Launch the Friggin Nuke!
- *
- * @param jcode [IN] Launch code for the nuke
- *
- * @return 1 if successfully launched, 0 otherwise
- */
-JNIEXPORT jint JNICALL Java_jakhar_aseem_diva_DivaJni_initiateLaunchSequence(JNIEnv * env, jobject jobj, jstring jcode) {
-
-    const char * pcode = (*env)->GetStringUTFChars(env, jcode, 0);
-
-    int ret = 0;
-    char code[CODESIZEMAX];
-
-    strcpy(code, pcode);
-
-    // Replace the first character, if it is '!' to '.' because the boss said so ;)
-    if (code[0] == '!') {
-        code[0] = '.';
+        // Display the details on the app
+        binding.apicTextView.text = apidetails
     }
-    ret = strncmp(CODE, code, sizeof(CODE) - 1);
-    if (ret == 0) {
-        // Correct code entered
-        // Launching in T - 10....
-        ret = 1;
-    }
-    else {
-        ret = 0;
-        // Incorrect code. Access Denied! 
-    }
-    return ret;
-}
-
-jint JNI_OnLoad(JavaVM* vm, void* reserved) {
-    return JNI_VERSION_1_6;
 }

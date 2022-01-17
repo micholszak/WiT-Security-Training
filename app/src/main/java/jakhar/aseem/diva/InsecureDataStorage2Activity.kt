@@ -29,16 +29,41 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  */
+package jakhar.aseem.diva
 
-#ifndef DIVA_DIVAJNI_H
-#define DIVA_DIVAJNI_H
+import android.database.sqlite.SQLiteDatabase
+import android.os.Bundle
+import android.util.Log
+import android.widget.Toast
+import jakhar.aseem.diva.databinding.ActivityInsecureDataStorage2Binding
 
-JNIEXPORT jint JNICALL Java_jakhar_aseem_diva_DivaJni_access(JNIEnv * env,
-                                                             jobject jobj,
-                                                             jstring key);
+class InsecureDataStorage2Activity : BindingActivity<ActivityInsecureDataStorage2Binding>() {
 
-JNIEXPORT jint JNICALL Java_jakhar_aseem_diva_DivaJni_initiateLaunchSequence(JNIEnv * env,
-                                                                             jobject jobj,
-                                                                             jstring jcode);
+    private lateinit var mDB: SQLiteDatabase
 
-#endif //DIVA_DIVAJNI_H
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        try {
+            mDB = openOrCreateDatabase("ids2", MODE_PRIVATE, null)
+            mDB.execSQL("CREATE TABLE IF NOT EXISTS myuser(user VARCHAR, password VARCHAR);")
+        } catch (e: Exception) {
+            Log.d("Diva", "Error occurred while creating database: ${e.message}")
+        }
+
+        setContentView(ActivityInsecureDataStorage2Binding::inflate)
+        binding.ids2button.setOnClickListener {
+            saveCredentials()
+        }
+    }
+
+    private fun saveCredentials() {
+        try {
+            mDB.execSQL("INSERT INTO myuser VALUES ('${binding.ids2Usr.text}', '${binding.ids2Pwd.text}');")
+            mDB.close()
+        } catch (e: Exception) {
+            Log.d("Diva", "Error occurred while inserting into database: ${e.message}")
+        }
+        Toast.makeText(this, "3rd party credentials saved successfully!", Toast.LENGTH_SHORT).show()
+    }
+}

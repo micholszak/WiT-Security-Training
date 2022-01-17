@@ -29,38 +29,40 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  */
-package jakhar.aseem.diva;
+package jakhar.aseem.diva
 
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.widget.EditText;
-import android.widget.Toast;
+import android.os.Bundle
+import android.util.Log
+import android.widget.Toast
+import jakhar.aseem.diva.databinding.ActivityInsecureDataStorage3Binding
+import java.io.File
 
-public class LogActivity extends AppCompatActivity {
+class InsecureDataStorage3Activity : BindingActivity<ActivityInsecureDataStorage3Binding>() {
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_log);
-    }
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(ActivityInsecureDataStorage3Binding::inflate)
 
-    public void checkout(View view) {
-        EditText cctxt = (EditText) findViewById(R.id.ccText);
-        try {
-            // Assuming we do some HTTP requests credit card validation and processing
-            //Everything seems fine and then we hit some unforseen error
-            processCC(cctxt.getText().toString());
-        } catch (RuntimeException re) {
-            Log.e("diva-log", "Error while processing transaction with credit card: " + cctxt.getText().toString());
-            Toast.makeText(this, "An error occured. Please try again later", Toast.LENGTH_SHORT).show();
+        binding.ids3button.setOnClickListener {
+            saveCredentials()
         }
     }
 
-    private void processCC(String ccstr) {
-        // Do some important processing and throw if there is any error
-        RuntimeException e = new RuntimeException();
-        throw e;
+    private fun saveCredentials() {
+        val ddir = File(applicationInfo.dataDir)
+        try {
+            val uinfo = File.createTempFile("uinfo", "tmp", ddir)
+            uinfo.setReadable(true)
+            uinfo.setWritable(true)
+            uinfo.printWriter().use { output ->
+                output.println("${binding.ids3Usr.text}:${binding.ids3Pwd.text}")
+            }
+            Toast.makeText(this, "3rd party credentials saved successfully!", Toast.LENGTH_SHORT)
+                .show()
+            // Now you can read the temporary file whenever the credentials are required.
+        } catch (e: Exception) {
+            Toast.makeText(this, "File error occurred", Toast.LENGTH_SHORT).show()
+            Log.d("Diva", "File error: ${e.message}")
+        }
     }
 }

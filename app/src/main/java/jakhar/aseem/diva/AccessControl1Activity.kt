@@ -29,32 +29,35 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  */
-package jakhar.aseem.diva;
+package jakhar.aseem.diva
 
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.view.View;
-import android.webkit.WebSettings;
-import android.webkit.WebView;
-import android.widget.EditText;
+import android.content.Intent
+import android.os.Bundle
+import android.util.Log
+import android.widget.Toast
+import jakhar.aseem.diva.databinding.ActivityAccessControl1Binding
 
-public class InputValidation2URISchemeActivity extends AppCompatActivity {
+class AccessControl1Activity : BindingActivity<ActivityAccessControl1Binding>() {
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        setContentView(R.layout.activity_input_validation2_urischeme);
-        WebView wview = (WebView) findViewById(R.id.ivi2wview);
-        WebSettings wset = wview.getSettings();
-        wset.setJavaScriptEnabled(true);
-
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(ActivityAccessControl1Binding::inflate)
+        binding.aci1button.setOnClickListener {
+            viewAPICredentials()
+        }
     }
 
-    public void get(View view) {
-        EditText uriText = (EditText) findViewById(R.id.ivi2uri);
-        WebView wview = (WebView) findViewById(R.id.ivi2wview);
-
-        wview.loadUrl(uriText.getText().toString());
+    private fun viewAPICredentials() {
+        // Calling implicit intent i.e. with app defined action instead of activity class
+        val intent = Intent().apply {
+            action = "jakhar.aseem.diva.action.VIEW_CREDS"
+        }
+        // Check whether the intent resolves to an activity or not
+        if (intent.resolveActivity(packageManager) != null) {
+            startActivity(intent)
+        } else {
+            Toast.makeText(this, "Error while getting API details", Toast.LENGTH_SHORT).show()
+            Log.e("Diva-aci1", "Couldn't resolve the Intent VIEW_CREDS to our activity")
+        }
     }
 }

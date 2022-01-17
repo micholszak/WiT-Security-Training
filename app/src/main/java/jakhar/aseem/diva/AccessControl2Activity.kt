@@ -29,29 +29,43 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  */
-package jakhar.aseem.diva;
+package jakhar.aseem.diva
 
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.view.View;
-import android.widget.EditText;
-import android.widget.Toast;
+import android.content.Intent
+import android.os.Bundle
+import android.util.Log
+import android.view.View
+import android.widget.Button
+import android.widget.RadioButton
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import jakhar.aseem.diva.databinding.ActivityAccessControl2Binding
 
-public class HardcodeActivity extends AppCompatActivity {
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_hardcode);
+class AccessControl2Activity : BindingActivity<ActivityAccessControl2Binding>() {
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(ActivityAccessControl2Binding::inflate)
+        binding.aci1button.setOnClickListener {
+            viewAPICredentials()
+        }
     }
 
-    public void access(View view) {
-        EditText hckey = (EditText) findViewById(R.id.hcKey);
+    private fun viewAPICredentials() {
+        val checkPin = binding.aci2rbregnow.isChecked
 
-        if (hckey.getText().toString().equals("vendorsecretkey")) {
-            Toast.makeText(this, "Access granted! See you on the other side :)", Toast.LENGTH_SHORT).show();
+        val intent = Intent().apply {
+            action = "jakhar.aseem.diva.action.VIEW_CREDS2"
+            putExtra(getString(R.string.chk_pin), checkPin)
         }
-        else {
-            Toast.makeText(this, "Access denied! See you in hell :D", Toast.LENGTH_SHORT).show();
+        // Calling implicit intent i.e. with app defined action instead of activity class
+        // Check whether the intent resolves to an activity or not
+        if (intent.resolveActivity(packageManager) != null) {
+            startActivity(intent)
+        } else {
+            Toast.makeText(this, "Error while getting Tveeter API details", Toast.LENGTH_SHORT)
+                .show()
+            Log.e("Diva-aci1", "Couldn't resolve the Intent VIEW_CREDS2 to our activity")
         }
     }
 }

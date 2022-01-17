@@ -39,13 +39,12 @@
         android:layout_below="@+id/ivi2uri"
         android:layout_alignParentLeft="false"
         android:layout_alignParentStart="false"
-        android:layout_centerHorizontal="true"
-        android:onClick="get"/>
+        android:layout_centerHorizontal="true" />
 
     <WebView
+        android:id="@+id/ivi2wview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/ivi2wview"
         android:layout_below="@+id/ivi2button" />
 
 </RelativeLayout>

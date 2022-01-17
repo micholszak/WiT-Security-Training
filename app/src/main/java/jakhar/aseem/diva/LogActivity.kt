@@ -29,40 +29,42 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  */
-package jakhar.aseem.diva;
+package jakhar.aseem.diva
 
-import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.widget.RadioButton;
-import android.widget.Toast;
+import android.os.Bundle
+import android.util.Log
+import android.widget.Toast
+import jakhar.aseem.diva.databinding.ActivityLogBinding
 
-public class AccessControl2Activity extends AppCompatActivity {
+class LogActivity : BindingActivity<ActivityLogBinding>() {
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_access_control2);
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(ActivityLogBinding::inflate)
+
+        binding.button.setOnClickListener {
+            checkout()
+        }
     }
 
-    public void viewAPICredentials(View view) {
-        //RadioButton rbalreadyreg = (RadioButton) findViewById(R.id.aci2rbalreadyreg);
-        RadioButton rbregnow = (RadioButton) findViewById(R.id.aci2rbregnow);
-        Intent i = new Intent();
-        boolean chk_pin = rbregnow.isChecked();
+    private fun checkout() {
+        try {
+            // Assuming we do some HTTP requests credit card validation and processing
+            //Everything seems fine and then we hit some unforseen error
+            processCC(binding.ccText.text.toString())
+        } catch (re: RuntimeException) {
+            Log.e(
+                "diva-log",
+                "Error while processing transaction with credit card: ${binding.ccText.text}"
+            )
+            Toast.makeText(this, "An error occured. Please try again later", Toast.LENGTH_SHORT)
+                .show()
+        }
+    }
 
-        // Calling implicit intent i.e. with app defined action instead of activity class
-        i.setAction("jakhar.aseem.diva.action.VIEW_CREDS2");
-        i.putExtra(getString(R.string.chk_pin), chk_pin);
-        // Check whether the intent resolves to an activity or not
-        if (i.resolveActivity(getPackageManager()) != null){
-            startActivity(i);
-        }
-        else {
-            Toast.makeText(this, "Error while getting Tveeter API details", Toast.LENGTH_SHORT).show();
-            Log.e("Diva-aci1", "Couldn't resolve the Intent VIEW_CREDS2 to our activity");
-        }
+    private fun processCC(ccstr: String) {
+        // Do some important processing and throw if there is any error
+        val e = RuntimeException()
+        throw e
     }
 }
