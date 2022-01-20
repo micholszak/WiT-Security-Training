@@ -78,7 +78,7 @@
             android:name=".NotesProvider"
             android:authorities="jakhar.aseem.diva.provider.notesprovider"
             android:enabled="true"
-            android:exported="true" />
+            android:exported="false" />
 
         <activity
             android:name=".AccessControl3Activity"
